@@ -5,5 +5,5 @@
 
 ## Install
 ```
-asdf plugin add gosec https://github.com/grimoh/asdf-glow.git
+asdf plugin add gosec https://github.com/grimoh/asdf-gosec.git
 ```
