@@ -2,25 +2,14 @@
 set -e
 
 # check ASDF environment variables
-[ -n "$ASDF_INSTALL_VERSION" ] || (echo 'Missing ASDF_INSTALL_VERSION' >&2 && exit 1)
 [ -n "$ASDF_INSTALL_PATH" ] || (echo 'Missing ASDF_INSTALL_PATH' >&2 && exit 1)
+[ -n "$ASDF_DOWNLOAD_PATH" ] || (echo 'Missing ASDF_DOWNLOAD_PATH' >&2 && exit 1)
 
 mkdir -p "${ASDF_INSTALL_PATH}/bin"
 toolPath="${ASDF_INSTALL_PATH}/bin/gosec"
-downloadPath="$(mktemp -d)"
-cd "${downloadPath}"
 
-case "$(uname -s)" in
-	"Darwin")
-		DOWNLOAD_URL="https://github.com/securego/gosec/releases/download/v${ASDF_INSTALL_VERSION}/gosec_${ASDF_INSTALL_VERSION}_darwin_amd64.tar.gz"
-		;;
-	"Linux")
-		DOWNLOAD_URL="https://github.com/securego/gosec/releases/download/v${ASDF_INSTALL_VERSION}/gosec_${ASDF_INSTALL_VERSION}_linux_amd64.tar.gz"
-		;;
-esac
+cd "${ASDF_DOWNLOAD_PATH}"
 
-curl -fL -o "${downloadPath}/gosec.tar.gz" "${DOWNLOAD_URL}"
 tar xzf gosec.tar.gz
 mv ./gosec "${toolPath}"
 chmod +x "${toolPath}"
-rm -rf "${downloadPath}"
